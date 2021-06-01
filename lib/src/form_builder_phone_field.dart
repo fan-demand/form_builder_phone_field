@@ -25,7 +25,7 @@ class FormBuilderPhoneField extends FormBuilderField<String> {
   final MaxLengthEnforcement maxLengthEnforcement;
   final int? maxLength;
   final VoidCallback? onEditingComplete;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final List<TextInputFormatter>? inputFormatters;
   final double cursorWidth;
   final Radius? cursorRadius;
@@ -57,13 +57,13 @@ class FormBuilderPhoneField extends FormBuilderField<String> {
     Key? key,
     //From Super
     required String name,
-    FormFieldValidator<String>? validator,
+    FormFieldValidator<String?>? validator,
     String? initialValue,
     InputDecoration decoration = const InputDecoration(),
-    ValueChanged<String>? onChanged,
-    ValueTransformer<String>? valueTransformer,
+    ValueChanged<String?>? onChanged,
+    ValueTransformer<String?>? valueTransformer,
     bool enabled = true,
-    FormFieldSetter<String>? onSaved,
+    FormFieldSetter<String?>? onSaved,
     AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
     VoidCallback? onReset,
     FocusNode? focusNode,
