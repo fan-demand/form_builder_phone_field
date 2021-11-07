@@ -105,7 +105,9 @@ class FormBuilderPhoneField extends FormBuilderField<String> {
     this.isCupertinoPicker = false,
     this.cupertinoPickerSheetHeight,
     this.textAlignVertical,
-  })  : assert(initialValue == null || controller == null || defaultSelectedCountryIsoCode != null),
+  })  : assert(initialValue == null ||
+            controller == null ||
+            defaultSelectedCountryIsoCode != null),
         super(
           key: key,
           initialValue: initialValue,
@@ -147,7 +149,10 @@ class FormBuilderPhoneField extends FormBuilderField<String> {
                         const SizedBox(width: 10),
                         Text(
                           '+${state._selectedDialogCountry.phoneCode} ',
-                          style: Theme.of(state.context).textTheme.subtitle1!.merge(style),
+                          style: Theme.of(state.context)
+                              .textTheme
+                              .subtitle1!
+                              .merge(style),
                         ),
                       ],
                     ),
@@ -207,7 +212,8 @@ class FormBuilderPhoneField extends FormBuilderField<String> {
   _FormBuilderPhoneFieldState createState() => _FormBuilderPhoneFieldState();
 }
 
-class _FormBuilderPhoneFieldState extends FormBuilderFieldState<FormBuilderPhoneField, String> {
+class _FormBuilderPhoneFieldState
+    extends FormBuilderFieldState<FormBuilderPhoneField, String> {
   late TextEditingController _effectiveController;
   late Country _selectedDialogCountry;
 
@@ -215,15 +221,17 @@ class _FormBuilderPhoneFieldState extends FormBuilderFieldState<FormBuilderPhone
     // When there is no phone number text, the field is empty -- the country
     // prefix is only prepended when a phone number is specified.
     final phoneText = _effectiveController.text;
-    return phoneText.isNotEmpty ? '+${_selectedDialogCountry.phoneCode}$phoneText' : phoneText;
+    return phoneText.isNotEmpty
+        ? '+${_selectedDialogCountry.phoneCode}$phoneText'
+        : phoneText;
   }
 
   @override
   void initState() {
     super.initState();
     _effectiveController = widget.controller ?? TextEditingController();
-    _selectedDialogCountry =
-        CountryPickerUtils.getCountryByIsoCode(widget.defaultSelectedCountryIsoCode!);
+    _selectedDialogCountry = CountryPickerUtils.getCountryByIsoCode(
+        widget.defaultSelectedCountryIsoCode!);
     _parsePhone();
   }
 
@@ -243,8 +251,8 @@ class _FormBuilderPhoneFieldState extends FormBuilderFieldState<FormBuilderPhone
         final parseResult = await PhoneNumberUtil().parse(initialValue!);
         if (parseResult != null) {
           setState(() {
-            _selectedDialogCountry =
-                CountryPickerUtils.getCountryByPhoneCode(parseResult.countryCode);
+            _selectedDialogCountry = CountryPickerUtils.getCountryByPhoneCode(
+                parseResult.countryCode);
           });
           _effectiveController.text = parseResult.nationalNumber;
         }
@@ -266,7 +274,7 @@ class _FormBuilderPhoneFieldState extends FormBuilderFieldState<FormBuilderPhone
         return CountryPickerCupertino(
           pickerSheetHeight: widget.cupertinoPickerSheetHeight ?? 300.0,
           onValuePicked: (Country country) {
-            effectiveFocusNode!.requestFocus();
+            effectiveFocusNode.requestFocus();
             setState(() => _selectedDialogCountry = country);
             didChange(fullNumber);
           },
@@ -301,8 +309,10 @@ class _FormBuilderPhoneFieldState extends FormBuilderFieldState<FormBuilderPhone
           ),
           child: CountryPickerDialog(
             titlePadding: widget.titlePadding ?? const EdgeInsets.all(8.0),
-            searchCursorColor: widget.cursorColor ?? Theme.of(context).primaryColor,
-            searchInputDecoration: InputDecoration(hintText: widget.searchText ?? 'Search...'),
+            searchCursorColor:
+                widget.cursorColor ?? Theme.of(context).primaryColor,
+            searchInputDecoration:
+                InputDecoration(hintText: widget.searchText ?? 'Search...'),
             isSearchable: widget.isSearchable ?? true,
             title: widget.dialogTitle ??
                 Text(
