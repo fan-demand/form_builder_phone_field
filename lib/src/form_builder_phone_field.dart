@@ -231,7 +231,7 @@ class _FormBuilderPhoneFieldState
     super.initState();
     _effectiveController = widget.controller ?? TextEditingController();
     _selectedDialogCountry = CountryPickerUtils.getCountryByIsoCode(
-        widget.defaultSelectedCountryIsoCode!);
+        widget.defaultSelectedCountryIsoCode ?? 'US');
     _parsePhone();
   }
 
@@ -274,7 +274,7 @@ class _FormBuilderPhoneFieldState
         return CountryPickerCupertino(
           pickerSheetHeight: widget.cupertinoPickerSheetHeight ?? 300.0,
           onValuePicked: (Country country) {
-            effectiveFocusNode.requestFocus();
+            effectiveFocusNode?.requestFocus();
             setState(() => _selectedDialogCountry = country);
             didChange(fullNumber);
           },
